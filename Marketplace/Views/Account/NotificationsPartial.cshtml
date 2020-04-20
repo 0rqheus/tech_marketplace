@@ -1,0 +1,47 @@
+﻿@model Marketplace.Models.ViewModels.NotificationsViewModel
+
+@{
+    string GetClassByNotifType(NotificationType type)
+    {
+        if (type == NotificationType.Purchase) return "purchase";
+        else if (type == NotificationType.Sale) return "sale";
+        else if (type == NotificationType.PriceTrack) return "track";
+        else if (type == NotificationType.Report) return "report";
+
+        return "";
+    }
+}
+
+@if (Model.PageAmount == 0)
+{
+    <h3 class="text-center text-muted" >No results</h3>
+}
+
+else
+{
+    <ul class="list-group">
+        @foreach (Notification n in Model.Notifications)
+        {
+            // color depending on type
+            <li class="list-group-item @GetClassByNotifType(n.Type)">
+                <p>@Html.Raw(n.Message)</p>
+            </li>
+        }
+    </ul>
+
+    <div class="d-flex align-items-center justify-content-center pagination-menu mt-4">
+        <button class="btn btn-dark btn-pagination" id="previousPageBtn">
+            Previous
+        </button>
+
+        <p class="mb-0 ml-3 mr-3">
+            <span id="currentPage">@Model.PageNumber</span>
+            /
+            <span id="pagesAmount">@Model.PageAmount</span>
+        </p>
+
+        <button class="btn btn-dark btn-pagination" id="nextPageBtn">
+            Next
+        </button>
+    </div>
+}

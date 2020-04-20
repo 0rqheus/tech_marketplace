@@ -1,0 +1,36 @@
+﻿
+@{
+    ViewData["Title"] = "Register";
+}
+
+<h2 class="text-center">Sign Up</h2>
+
+<form method="post" class="w-50 m-auto">
+    <div class="form-group">
+        <label for="emailInput">Email</label>
+        <input id="emailInput" class="form-control" type="email" name="Email" required/>
+    </div>
+
+    <div class="form-group">
+        <label for="nameInput">Name</label>
+        <input id="nameInput" class="form-control" name="Name" required/>
+    </div>
+
+    <div class="form-group">
+        <label for="phoneInput">Phone</label>
+        <input id="phoneInput" class="form-control" name="Phone" required/>
+    </div>
+
+    <div class="form-group">
+        <label for="descriptionTextarea">Description</label>
+        <textarea id="descriptionTextarea" class="form-control" name="Description"  rows="4"></textarea>
+    </div>
+
+    <div class="form-group">
+        <label for="passwordInput">Password</label>
+        <input id="passwordInput" class="form-control" type="password" name="Password" required/>
+    </div>
+
+    <button type="submit" class="btn btn-success">Submit</button>
+</form>
+

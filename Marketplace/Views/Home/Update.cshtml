@@ -1,0 +1,36 @@
+﻿@model Ad
+
+@{
+    ViewData["Title"] = "Update";
+}
+
+<h2 class="text-center">Update</h2>
+
+<form class="m-auto w-75" method="post" enctype="multipart/form-data">
+    <div class="form-group" hidden>
+        <label for="idReadonlyInput">Id</label>
+        <input id="idReadonlyInput" class="form-control" name="Id" value="@Model.Id" readonly />
+    </div>
+    <div class="form-group">
+        <label for="titleInput">Title</label>
+        <input id="titleInput" class="form-control" name="Title" value="@Model.Title" />
+    </div>
+    <div class="form-group">
+        <label for="descriptionInput">Description</label>
+        <textarea id="descriptionInput" class="form-control" name="Description" rows="4">@Model.Description</textarea>
+    </div>
+    <div class="form-group">
+        <label for="priceInput">Price</label>
+        <input id="priceInput" class="form-control" name="Price"  type="number" value="@Model.Price" />
+    </div>
+    <div class="custom-file">
+        <input name="PhotoFile" type="file" class="custom-file-input" id="photoInput">
+        <label class="custom-file-label" for="photoInput">Choose photo</label>
+    </div>
+    <div class="form-group">
+        <label for="categoryReadonlyInput">Category</label>
+        <input id="categoryReadonlyInput" class="form-control" name="Category"  value="@Model.Category" readonly />
+    </div>
+
+    <button type="submit" class="btn btn-success">Submit</button>
+</form>

@@ -1,0 +1,60 @@
+﻿
+@{
+    ViewData["Title"] = ViewBag.User.Name;
+}
+
+<form class="d-flex justify-content-end m-3" action="/Home/BanToggle/@ViewBag.User.Id" method="post">
+    <button class="btn btn-dark" type="submit" id="ban-toggle-btn">
+        @{
+            if (ViewBag.User.IsBanned)
+            {
+                @:Unban
+            }
+            else
+            {
+                @:Ban
+            }
+        }
+    </button>
+</form>
+
+
+<table class="table table-bordered w-75 m-auto">
+    <tr>
+        <th scope="row">Id</th>
+        <td>@ViewBag.User.Id</td>
+    </tr>
+    <tr>
+        <th scope="row">Role</th>
+        @{
+            string role = ViewBag.User.RoleId == 1 ? "Admin" : "User";
+        }
+        <td>@role</td>
+    </tr>
+    <tr>
+        <th scope="row">Name</th>
+        <td>@ViewBag.User.Name</td>
+    </tr>
+    <tr>
+        <th scope="row">Email</th>
+        <td>@ViewBag.User.Email</td>
+    </tr>
+    <tr>
+        <th scope="row">Phone</th>
+        <td>@ViewBag.User.Phone</td>
+    </tr>
+    <tr>
+        <th scope="row">Description</th>
+        <td>@ViewBag.User.Description</td>
+    </tr>
+    <tr>
+        <th scope="row">Registration date</th>
+        <td>@ViewBag.User.RegistrationDate</td>
+    </tr>
+</table>
+
+@section Scripts 
+{
+    <script src="~/js/user.js"></script>
+}
+

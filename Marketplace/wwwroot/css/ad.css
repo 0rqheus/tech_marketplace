@@ -1,0 +1,71 @@
+﻿#content {
+    width: 980px;
+}
+
+#track-btn {
+    background: no-repeat center/65% url("../trackIcon.svg");
+    height: 40px;
+    width: 60px;
+}
+
+.tracked {
+    filter: invert(1);
+}
+
+#price-dateloc-container {
+    height: 250px;
+}
+
+#setting-container {
+    right: 0px;
+    top: 0px;
+}
+
+.top-0 {
+    top: 0px;
+}
+
+.right-0 {
+    right: 0px;
+}
+
+.left-0 {
+    left: 0px;
+}
+
+.bottom-0 {
+    bottom: 0px;
+}
+
+#curr-ad-photo {
+    max-width: 520px;
+    max-height: 300px;
+}
+
+#price {
+    color: #c92e3d;
+    font-size: 28px;
+    margin-bottom: 0px;
+    font-weight: bold;
+}
+
+#price::before {
+    content: "$"
+}
+
+#buy-btn {
+    width: 80px;
+    height: 40px;
+    margin-left: 10px;
+    border-radius: 5px;
+}
+
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 5px;
+    text-align: center;
+}

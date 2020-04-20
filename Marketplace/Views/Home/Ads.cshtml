@@ -1,0 +1,156 @@
+﻿@{
+    ViewData["Title"] = "Ads";
+}
+
+@model Marketplace.Models.ViewModels.AdsViewModel
+
+@section Styles
+{
+    <link rel="stylesheet" href="~/css/ads.css" type="text/css" />
+}
+
+<div class="mb-3 mt-2">
+
+    <div class="d-flex mb-4">
+        <button id="filter-collapse-toggle" class="btn btn-dark collapse-btns" type="button" data-toggle="collapse" data-target="#filter-collapse" aria-expanded="false" aria-controls="collapseExample">Filter</button>
+        <button id="sort-collapse-toggle" class="btn btn-dark collapse-btns" type="button" data-toggle="collapse" data-target="#sort-collapse" aria-expanded="false" aria-controls="collapseExample">Sort</button>
+    </div>
+
+    <div class="collapse" id="filter-collapse">
+        <form id="filterForm">
+            <div class="form-row">
+                <div class="form-group col">
+                    <label for="priceFromInput">Price from</label>
+                    <input class="form-control" id="priceFromInput" type="number" name="FromPrice" />
+                </div>
+                <div class="form-group col">
+                    <label for="priceToInput">to</label>
+                    <input class="form-control" id="priceToInput" type="number" name="ToPrice" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="brandInput">Brand</label>
+                <input class="form-control" id="brandInput" name="Brand" placeholder="Microsoft" />
+            </div>
+
+            @if (Model.Category == "smartphone" || ViewBag.Category == "laptop")
+            {
+                <div class="form-group">
+                    <label for="screenSizeInput">Screen Size (Inches)</label>
+                    <input class="form-control" id="screenSizeInput" type="number" step="0.1" name="ScreenSize" placeholder="5.5" />
+                </div>
+                <div class="form-group">
+                    <label for="ramInput">RAM (GB)</label>
+                    <input class="form-control" id="ramInput" type="number" name="RAM" placeholder="8" />
+                </div>
+                if (Model.Category == "smartphone")
+                {
+                    <div class="form-group">
+                        <label for="batteryCapacityInput">Battery capacity (mA * h)</label>
+                        <input class="form-control" id="batteryCapacityInput" type="number" name="BatteryCapacity" placeholder="4000" />
+                    </div>
+                }
+                else
+                {
+                    <div class="form-group">
+                        <label for="driveVolumeInput">Drive volume (GB)</label>
+                        <input class="form-control" id="driveVolumeInput" type="number" name="DriveVolume" placeholder="1500" />
+                    </div>
+                }
+            }
+            else if (Model.Category == "monitor")
+            {
+                <div class="form-group">
+                    <label for="screenSizeInput">Screen Size (Inches)</label>
+                    <input class="form-control" id="screenSizeInput" type="number" name="ScreenSize" placeholder="25" />
+                </div>
+                <div class="form-group">
+                    <label for="resolutionInput">Resolution</label>
+                    <input class="form-control" id="resolutionInput" name="Resolution" placeholder="1920 x 1080" />
+                </div>
+                <div class="form-group">
+                    <label for="refreshRateInput">Refresh Rate (Hz)</label>
+                    <input class="form-control" id="refreshRateInput" type="number" name="RefreshRate" placeholder="144" />
+                </div>
+            }
+            else if (Model.Category == "videocard")
+            {
+                <div class="form-group">
+                    <label for="memorySizeInput">Memory Size (MB)</label>
+                    <input class="form-control" id="memorySizeInput" type="number" name="MemorySize" placeholder="4000" />
+                </div>
+                <div class="form-group">
+                    <label for="memoryTypeInput">Memory type</label>
+                    <input class="form-control" id="memoryTypeInput" name="MemoryType" placeholder="GDDR6" />
+                </div>
+            }
+            else if (Model.Category == "processor")
+            {
+                <div class="form-group">
+                    <label for="numberOfCoresInput">Number of Cores</label>
+                    <input class="form-control" id="numberOfCoresInput" type="number" name="CoresAmount" placeholder="4" />
+                </div>
+                <div class="form-group">
+                    <label for="clockSpeedInput">Clock Speed (GHz)</label>
+                    <input class="form-control" id="clockSpeedInput" type="number" step="0.1" name="ClockSpeed" placeholder="3.55" />
+                </div>
+            }
+            else if (Model.Category == "RAM")
+            {
+                <div class="form-group">
+                    <label for="totalCapacityInput">Total Capacity (GB)</label>
+                    <input class="form-control" id="totalCapacityInput" type="number" name="TotalCapacity" placeholder="8" />
+                </div>
+                <div class="form-group">
+                    <label for="numberOfModulesInput">Number of Modules</label>
+                    <input class="form-control" id="numberOfModulesInput" type="number" name="ModulesAmount" placeholder="2" />
+                </div>
+                <div class="form-group">
+                    <label for="memoryTypeInput">MemoryType</label>
+                    <input class="form-control" id="memoryTypeInput" name="MemoryType" placeholder="DDR3" />
+                </div>
+            }
+            else if (Model.Category == "drive")
+            {
+                <div class="form-group">
+                    <label for="capacityInput">Storage Capacity (GB)</label>
+                    <input class="form-control" id="capacityInput" type="number" name="Capacity" placeholder="2000" />
+                </div>
+                <div class="form-group">
+                    <label for="rpmInput">Rotation Speed (RPM)</label>
+                    <input class="form-control" id="rpmInput" type="number" name="RPM" placeholder="7200" />
+                </div>
+            }
+
+            <input class="btn btn-outline-dark" type="Submit" value="Apply" />
+        </form>
+    </div>
+
+    <div class="collapse w-50" id="sort-collapse">
+        <form id="sortForm">
+            <div class="form-row">
+                <div class="form-group col">
+                    <select id="sortType" class="form-control" name="sort">
+                        <option value="recent">Recent</option>
+                        <option value="decrease-price">Price high to low</option>
+                        <option value="increase-price">Price low to high</option>
+                        <option value="own">Own</option>
+                    </select>
+                </div>
+                <div class="form-group col">
+                    <input class="btn btn-outline-dark" type="Submit" value="Apply" />
+                </div>
+            </div>
+        </form>
+    </div>
+
+</div>
+
+<div id="collection-container">
+    @{await Html.RenderPartialAsync("AdsPartial", Model);}
+</div>
+
+@section scripts
+{
+    <script src="~/js/ads.js"></script>
+}

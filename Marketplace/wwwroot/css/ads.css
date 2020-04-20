@@ -1,0 +1,56 @@
+﻿
+.collapse-btns{
+    width: 70px;
+    margin-right: 10px;
+}
+
+.ads-container {
+    min-height: 70vh;
+}
+
+.ad-card {
+    width: 200px;
+    margin-bottom: 20px;
+    padding: 4px;
+    max-height: 250px;
+}
+
+.ad-card-img {
+    height: 150px;
+}
+
+.ad-card-title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+    text-align: center;
+}
+
+.ad-card-description {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 90%;
+    margin: auto;
+    max-height: 50px;
+    color: black;
+}
+
+.ad-card-price {
+    color: #c92e3d;
+    font-weight: bold;
+    margin-left: 10px;
+}
+
+.ad-card-price::before {
+    content: "$"
+}
+
+.btn-buy:hover {
+    background: #24B960
+}
+
+
+.btn-pagination {
+    width: 85px;
+}

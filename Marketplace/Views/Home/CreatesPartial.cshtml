@@ -1,0 +1,164 @@
+﻿@model Category
+
+<div class="form-group">
+    <label for="titleInput">Title</label>
+    <input id="titleInput" class="form-control" type="text" name="Title" required />
+</div>
+
+<div class="form-group">
+    <label for="descriptionText">Description</label>
+    <textarea id="descriptionText" class="form-control" name="Description" rows="4"></textarea>
+</div>
+
+<div class="form-group">
+    <label for="priceInput">Price</label>
+    <input id="priceInput" class="form-control" type="number" name="Price" step="0.1" required />
+</div>
+
+<div class="form-group">
+    <label for="locationInput">Location</label>
+    <input id="locationInput" class="form-control" type="text" name="Location" />
+</div>
+
+<div class="form-group">
+    <label for="categoryInput">Category</label>
+    <input id="categoryInput" class="form-control" type="text" name="Category" value="@Model.CategoryName" readonly/>
+</div>
+
+<div class="custom-file">
+    <input name="PhotoFile" type="file" class="custom-file-input" id="photoInput" required>
+    <label class="custom-file-label" for="photoInput">Choose photo</label>
+</div>
+
+<div class="form-group">
+    <label for="brandInput">Brand</label>
+    <input class="form-control" id="brandInput" name="Brand" placeholder="Microsoft" />
+</div>
+
+@if (Model.CategoryName == "smartphone")
+{
+    <div class="form-group">
+        <label for="screenSizeInput">Screen Size (Inches)</label>
+        <input class="form-control" id="screenSizeInput" type="number" step="0.1" name="ScreenSize" placeholder="5.5" />
+    </div>
+    <div class="form-group">
+        <label for="processorInput">Processor</label>
+        <input class="form-control" id="processorInput" name="Processor" placeholder="Qualcomm Snapdragon 730G" />
+    </div>
+    <div class="form-group">
+        <label for="ramInput">RAM (GB)</label>
+        <input class="form-control" id="ramInput" type="number" name="RAM" placeholder="8" />
+    </div>
+    <div class="form-group">
+        <label for="batteryCapacityInput">Battery capacity (mA * h)</label>
+        <input class="form-control" id="batteryCapacityInput" type="number" name="BatteryCapacity" placeholder="4000" />
+    </div>
+}
+else if (Model.CategoryName == "laptop")
+{
+    <div class="form-group">
+        <label for="screenSizeInput">Screen Size (Inches)</label>
+        <input class="form-control" id="screenSizeInput" type="number" step="0.1" name="ScreenSize" placeholder="15.6" />
+    </div>
+    <div class="form-group">
+        <label for="processorInput">Processor</label>
+        <input class="form-control" id="processorInput" name="Processor" placeholder="Intel Core i7-9750H" />
+    </div>
+    <div class="form-group">
+        <label for="ramInput">RAM (GB)</label>
+        <input class="form-control" id="ramInput" type="number" name="RAM" placeholder="16" />
+    </div>
+    <div class="form-group">
+        <label for="videocardInput">Videocard</label>
+        <input class="form-control" id="videocardInput" name="Videocard" placeholder="nVidia GeForce GTX 1660 Ti" />
+    </div>
+    <div class="form-group">
+        <label for="driveVolumeInput">Drive volume (GB)</label>
+        <input class="form-control" id="driveVolumeInput" type="number" name="DriveVolume" placeholder="1500" />
+    </div>
+}
+else if (Model.CategoryName == "monitor")
+{
+    <div class="form-group">
+        <label for="screenSizeInput">Screen Size (Inches)</label>
+        <input class="form-control" id="screenSizeInput" type="number" name="ScreenSize" placeholder="25" />
+    </div>
+    <div class="form-group">
+        <label for="resolutionInput">Resolution</label>
+        <input class="form-control" id="resolutionInput" name="Resolution" placeholder="1920 x 1080" />
+    </div>
+    <div class="form-group">
+        <label for="matrixTypeSelect">Matrix type</label>
+        <select class="form-control" id="matrixTypeSelect" name="MatrixType">
+            <option value="ips">IPS</option>
+            <option value="tn">TN</option>
+            <option value="va">VA</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="refreshRateInput">Refresh Rate (Hz)</label>
+        <input class="form-control" id="refreshRateInput" type="number" name="RefreshRate" placeholder="144" />
+    </div>
+    <div class="form-group">
+        <label for="aspectRatioInput">Aspect Ratio</label>
+        <input class="form-control" id="aspectRatioInput" name="AspectRatio" placeholder="16:9" />
+    </div>
+}
+else if (Model.CategoryName == "videocard")
+{
+    <div class="form-group">
+        <label for="memorySizeInput">Memory Size (MB)</label>
+        <input class="form-control" id="memorySizeInput" type="number" name="MemorySize" placeholder="4000" />
+    </div>
+    <div class="form-group">
+        <label for="memoryTypeInput">Memory type</label>
+        <input class="form-control" id="memoryTypeInput" name="MemoryType" placeholder="GDDR6" />
+    </div>
+    <div class="form-group">
+        <label for="memoryBusWidthInput">Memory Bus Width (bit)</label>
+        <input class="form-control" id="memoryBusWidthInput" type="number" name="MemoryBusWidth" placeholder="352" />
+    </div>
+}
+else if (Model.CategoryName == "processor")
+{
+    <div class="form-group">
+        <label for="numberOfCoresInput">Number of Cores</label>
+        <input class="form-control" id="numberOfCoresInput" type="number" name="CoresAmount" placeholder="4" />
+    </div>
+    <div class="form-group">
+        <label for="clockSpeedInput">Clock Speed (GHz)</label>
+        <input class="form-control" id="clockSpeedInput" type="number" step="0.1" name="ClockSpeed" placeholder="3.55" />
+    </div>
+}
+else if (Model.CategoryName == "RAM")
+{
+    <div class="form-group">
+        <label for="totalCapacityInput">Total Capacity (GB)</label>
+        <input class="form-control" id="totalCapacityInput" type="number" name="TotalCapacity" placeholder="8" />
+    </div>
+    <div class="form-group">
+        <label for="numberOfModulesInput">Number of Modules</label>
+        <input class="form-control" id="numberOfModulesInput" type="number" name="ModulesAmount" placeholder="2" />
+    </div>
+    <div class="form-group">
+        <label for="memoryTypeInput">MemoryType</label>
+        <input class="form-control" id="memoryTypeInput" name="MemoryType" placeholder="DDR3" />
+    </div>
+}
+else if (Model.CategoryName == "drive")
+{
+    <div class="form-group">
+        <label for="capacityInput">Storage Capacity (GB)</label>
+        <input class="form-control" id="capacityInput" type="number" name="Capacity" placeholder="2000" />
+    </div>
+    <div class="form-group">
+        <label for="rpmInput">Rotation Speed (RPM)</label>
+        <input class="form-control" id="rpmInput" type="number" name="RPM" placeholder="7200" />
+    </div>
+    <div class="form-group">
+        <label for="formFactorInput">Form Factor (in)</label>
+        <input class="form-control" id="formFactorInput" type="number" step="0.1" name="FormFactor" placeholder="2.5" />
+    </div>
+}
+
+<input class="btn btn-outline-success w-25 mt-5 m-auto" type="submit" value="Create" />

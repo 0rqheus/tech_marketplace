@@ -1,0 +1,37 @@
+﻿
+@{
+    ViewData["Title"] = "Notifications";
+}
+
+@model Marketplace.Models.ViewModels.NotificationsViewModel
+
+@section Styles
+{
+    <link rel="stylesheet" href="~/css/notifications.css" type="text/css" />
+}
+
+<form id="sortForm" class="w-25 mt-3">
+    <div class="form-row">
+        <div class="form-group col">
+            <select id="sortType" class="form-control" name="sort">
+                <option value="track">Price trackers</option>
+                <option value="purchase">Purchases</option>
+                <option value="sale">Sales</option>
+                <option value="report">Reports</option>
+            </select>
+        </div>
+        <div class="form-group col">
+            <input class="btn btn-dark" type="Submit" value="Apply" />
+        </div>
+    </div>
+</form>
+
+
+<div id="collection-container">
+    @{await Html.RenderPartialAsync("NotificationsPartial", Model);}
+</div>
+
+@section Scripts
+{
+    <script src="~/js/notifications.js"></script>
+}

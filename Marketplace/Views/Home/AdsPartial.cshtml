@@ -1,0 +1,43 @@
+﻿@model Marketplace.Models.ViewModels.AdsViewModel
+
+@if(Model.Ads.Count() == 0)
+{
+    <h3 class="text-center text-muted">No results</h3>
+}
+else
+{
+<div id="ads" class="d-flex flex-wrap ads-container">
+    @foreach (AdPhotoDecorator AdDecor in Model.Ads)
+    {
+        <div class="ad-card d-flex flex-column mr-3 bg-light">
+            <div class="d-flex justify-content-center overflow-hidden bg-white">
+                <img class="ad-card-img" src="@AdDecor.GetImgSrc()" alt="" />
+            </div>
+
+            <div class="ad-card-info w-100">
+                <h5 class="ad-card-title"><a href="/Home/Ad/@AdDecor.GetAdURLQuery()">@AdDecor.Title</a></h5>
+                <p class="ad-card-description">@AdDecor.Description</p>
+                <p class="ad-card-price">@AdDecor.Price</p>
+            </div>
+
+        </div>
+    }
+</div>
+
+<div class="d-flex align-items-center justify-content-center pagination-menu">
+    <button class="btn btn-dark btn-pagination" id="previousPageBtn">
+        Previous
+    </button>
+
+    <p class="mb-0 ml-3 mr-3">
+        <span id="currentPage">@Model.PageNumber</span>
+        /
+        <span id="pagesAmount">@Model.PageAmount</span>
+    </p>
+
+    <button class="btn btn-dark btn-pagination" id="nextPageBtn">
+        Next
+    </button>
+</div>
+
+}

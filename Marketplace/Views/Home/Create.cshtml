@@ -1,0 +1,59 @@
+﻿@{
+    ViewData["Title"] = "Create Ad";
+}
+
+@section Styles
+{
+    <link rel="stylesheet" href="~/css/createAd.css" type="text/css" />
+}
+
+<h2 id="createHeader" class="text-center mt-3">Choose category</h2>
+
+<div class="container">
+    <form class="d-flex flex-column" id="CreateAdForm" method="post" enctype="multipart/form-data">
+
+        <div class="d-flex flex-wrap justify-content-between">
+            <label>
+                <input class="radio-category" type="radio" name="category" value="smartphone">
+                <img class="radio-img" src="~/smartphone.png">
+            </label>
+
+            <label>
+                <input class="radio-category" type="radio" name="category" value="laptop">
+                <img class="radio-img" src="~/laptop.png">
+            </label>
+
+            <label>
+                <input class="radio-category" type="radio" name="category" value="monitor">
+                <img class="radio-img" src="~/monitor.png">
+            </label>
+
+            <label>
+                <input class="radio-category" type="radio" name="category" value="videocard">
+                <img class="radio-img" src="~/videocard.png">
+            </label>
+
+            <label>
+                <input class="radio-category" type="radio" name="category" value="processor">
+                <img class="radio-img" src="~/processor.png">
+            </label>
+
+            <label>
+                <input class="radio-category" type="radio" name="category" value="RAM">
+                <img class="radio-img" src="~/ram.png">
+            </label>
+
+            <label>
+                <input class="radio-category" type="radio" name="category" value="drive">
+                <img class="radio-img" src="~/drive.png">
+            </label>
+        </div>
+
+    </form>
+</div>
+
+
+@section Scripts
+{
+    <script src="~/js/createAd.js"></script>
+}

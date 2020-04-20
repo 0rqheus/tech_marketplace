@@ -1,0 +1,74 @@
+﻿@using System.Security.Claims
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    @RenderSection("Styles", required: false)
+</head>
+<body>
+    <header class="d-flex justify-content-between pr-5 pl-5">
+        <div class="d-flex align-items-center">
+            <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Tech Marketplace</a>
+
+            <div class="dropdown">
+                <button id="category-btn" class="btn btn-dark dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                <div class="dropdown-menu" aria-labelledby="category-btn">
+                    <a class="dropdown-item" href="/Home/Ads?category=smartphone">Smartphones</a>
+                    <a class="dropdown-item" href="/Home/Ads?category=laptop">Laptops</a>
+                    <a class="dropdown-item" href="/Home/Ads?category=videocard">Videocards</a>
+                    <a class="dropdown-item" href="/Home/Ads?category=processor">Processors</a>
+                    <a class="dropdown-item" href="/Home/Ads?category=monitor">Monitors</a>
+                    <a class="dropdown-item" href="/Home/Ads?category=ram">RAMs</a>
+                    <a class="dropdown-item" href="/Home/Ads?category=drive">Drives</a>
+                </div>
+            </div>
+        </div>
+        <div class="d-flex align-items-center account-menu">
+            <form class="mr-3" action="/Home/Create" method="get">
+                <button id="create-btn" class="btn btn-dark" type="submit">Create</button>
+            </form>
+            @if (User.Identity.IsAuthenticated)
+            {
+                <span class="ml-3">
+                    Hi, @User.FindFirst(x => x.Type == ClaimTypes.Name).Value
+                </span>
+                <a class="ml-3" href="/Account/Notifications">
+                    <img id="notification-icon" src="~/notificationsIcon.svg"/>
+                </a>
+                <a class="ml-3" href="/Account/Logout">Logout</a>
+            }
+            else
+            {
+                <a class="ml-3" href="/Account/Login">Login</a>
+                <a class="ml-3" href="/Account/Register">Sign up</a>
+            }
+        </div>
+    </header>
+
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted d-flex justify-content-center">
+        <div>
+            &copy; 2020 - Tech Marketplace
+        </div>
+        <ul class="footer-links ml-4 d-flex">
+            <li>
+                <a class="text-muted" href="/Home/About">About</a>
+            </li>
+        </ul>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

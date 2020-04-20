@@ -1,0 +1,12 @@
+﻿.radio-category {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.radio-img {
+    cursor: pointer;
+    width: 200px;
+    height: 200px;
+}

@@ -1,0 +1,24 @@
+﻿.purchase {
+    background-color: #b3d9ff;
+}
+
+.sale {
+    background-color: #ffffb3;
+}
+
+.track {
+    background-color: #b3ffb3;
+}
+
+.report {
+    background-color: #ff5c50;
+}
+
+a[data-toggle="popover"] {
+    font-weight: 900;
+    cursor: pointer;
+}
+
+.notification-date {
+    color: grey;
+}
