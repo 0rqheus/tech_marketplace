@@ -165,7 +165,7 @@ namespace Marketplace.Controllers
             Ad targetAd = repo.GetAd(category, id);
 
             if (targetAd == null) return RedirectToAction("PageNotFound", "Error");
-            if (targetAd.IsFreezed == true && targetAd.UserId != (repo.GetUser(User.Identity.Name)).Id) return Content("Sorry, but this Ad is freezed");
+            if (targetAd.IsFreezed == true && targetAd.UserId != (repo.GetUser(User.Identity.Name)).Id) return RedirectToAction("Frozen", "Error");
 
             AdDecorator decor = new AdPhotoDecorator(targetAd);
 
