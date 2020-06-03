@@ -1,4 +1,5 @@
-﻿
+﻿@model Marketplace.Models.ViewModels.LoginVM
+
 @{
     ViewData["Title"] = "Login";
 }
@@ -8,17 +9,22 @@
 <form method="post" class="w-50 m-auto">
     <div class="form-group">
         <label for="emailInput">Email</label>
-        <input id="emailInput" class="form-control" type="email" name="Email" required/>
+        <input id="emailInput" class="form-control" type="email" name="Email" value="@Model.Email" required />
     </div>
     <div class="form-group">
         <label for="passwordInput">Password</label>
-        <input id="passwordInput" class="form-control" type="password" name="Password" required/>
+        <input id="passwordInput" class="form-control" type="password" name="Password" value="@Model.Password" required />
     </div>
 
     <div class="d-flex justify-content-between">
         <button type="submit" class="btn btn-success">Submit</button>
         <a class="btn btn-dark" href="/Account/Register">Sign Up</a>
     </div>
+
+    @if (Model.isIncorrect)
+    {
+        <p class="text-danger text-center mt-3">Incorrect email and/or password.</p>
+    }
 
 </form>
 

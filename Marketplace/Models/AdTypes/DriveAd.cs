@@ -14,7 +14,7 @@ namespace Marketplace.Models.AdTypes
         public DriveAd()
         { }
 
-        public DriveAd(CreateViewModel vm) : base(vm)
+        public DriveAd(CreateVM vm) : base(vm)
         {
             Capacity = vm.Capacity;
             RPM = vm.RPM;

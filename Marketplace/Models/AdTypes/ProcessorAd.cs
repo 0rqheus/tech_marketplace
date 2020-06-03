@@ -13,7 +13,7 @@ namespace Marketplace.Models.AdTypes
         public ProcessorAd()
         { }
 
-        public ProcessorAd(CreateViewModel vm) : base(vm)
+        public ProcessorAd(CreateVM vm) : base(vm)
         {
             CoresAmount = vm.CoresAmount;
             ClockSpeed = vm.ClockSpeed;

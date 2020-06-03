@@ -8,7 +8,7 @@ using System.IO;
 
 namespace Marketplace.Models
 {
-    public abstract class Ad : Component
+    public abstract class Ad
     {
         [Key]
         public int Id { get; set; }
@@ -38,7 +38,7 @@ namespace Marketplace.Models
         public Ad()
         { }
 
-        public Ad(CreateViewModel vm)
+        public Ad(CreateVM vm)
         {
             this.Title = vm.Title;
             this.Description = vm.Description;
@@ -53,9 +53,20 @@ namespace Marketplace.Models
             this.Brand = vm.Brand;
         }
 
-        public override string GetImgSrc()
+        public string GetImgSrc()
         {
-            return "";
+            return "data:image/jpg;base64," + Convert.ToBase64String(Photo, 0, Photo.Length);
+        }
+
+        public string GetAdURLQuery()
+        {
+            return $"?id={Id}&category={Category}";
+        }
+
+        public bool OwnerCheck(int userId)
+        {
+            if (UserId == userId) return true;
+            return false;
         }
 
         public abstract Dictionary<string, string> GetAdditionalProperties();

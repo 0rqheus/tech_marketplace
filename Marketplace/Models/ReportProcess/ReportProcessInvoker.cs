@@ -1,22 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Marketplace.Models.ReportProcess.Handlers;
 
 namespace Marketplace.Models.ReportProcess
 {
     public class ReportProcessInvoker
     {
-        private ReportHandler _firstHandler;
+        private Handler _firstHandler;
 
-        public void SetFirtHadler(ReportHandler handler)
+        public void SetFirtHadler(Handler handler)
         {
             _firstHandler = handler;
         }
 
-        public void StartReportProcessing()
+        public void StartReportProcessing(Report report, RepoFacade repo)
         {
-            _firstHandler.Handle();
+            _firstHandler.Handle(report, repo);
         }
     }
 }

@@ -1,18 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Marketplace.Models.ViewModels
 {
-    public class AdsViewModel
+    public class AdsVM
     {
-        public IEnumerable<AdPhotoDecorator> Ads { get; set; }
+        public IEnumerable<Ad> Ads { get; set; }
         public string Category { get; set; }
         public int PageNumber { get; set; }
         public int PageAmount { get; set; }
 
-        public AdsViewModel(IEnumerable<AdPhotoDecorator> ads, string category, int pageNumber, int pageAmount)
+        public AdsVM(IEnumerable<Ad> ads, string category, int pageNumber, int pageAmount)
         {
             Ads = ads;
             Category = category;

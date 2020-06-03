@@ -4,13 +4,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Marketplace.Models.SelectStrategy
+namespace Marketplace.Models.FilterStrategy
 {
-    interface IFilterStrategy<TEntity> where TEntity : Ad
+    interface IFilterAdsStrategy<TEntity> where TEntity : Ad
     {
-        public IEnumerable<TEntity> Select(IEnumerable<TEntity> ads, FilterViewModel select);
+        public IEnumerable<TEntity> Filter(IEnumerable<TEntity> ads, FilterVM select);
 
-        public static IEnumerable<TEntity> SelectPrice(IEnumerable<TEntity> ads, int priceFrom, int priceTo)
+        public static IEnumerable<TEntity> FilterPrice(IEnumerable<TEntity> ads, int priceFrom, int priceTo)
         {
             if (priceFrom != 0 && priceTo != 0)
             {
@@ -26,7 +26,7 @@ namespace Marketplace.Models.SelectStrategy
             }
         }
 
-        public static IEnumerable<TEntity> SelectBrand(IEnumerable<TEntity> ads, string brand)
+        public static IEnumerable<TEntity> FilterBrand(IEnumerable<TEntity> ads, string brand)
         {
             return ads.Where(ad => ad.Brand == brand);
         }

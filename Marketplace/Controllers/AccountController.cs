@@ -33,11 +33,12 @@ namespace Marketplace.Controllers
         [HttpGet]
         public IActionResult Login()
         {
-            return View();
+            LoginVM model = new LoginVM();
+            return View(model);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(LoginViewModel model)
+        public async Task<IActionResult> Login(LoginVM model)
         {
             if (ModelState.IsValid)
             {
@@ -49,7 +50,7 @@ namespace Marketplace.Controllers
 
                     return RedirectToAction("Index", "Home");
                 }
-                ModelState.AddModelError("", "Invalid email and/or password");
+                model.isIncorrect = true;
             }
             return View(model);
         }
@@ -124,7 +125,7 @@ namespace Marketplace.Controllers
             List<Notification> list = notifications?.Reverse().Take(entitiesPerPage).ToList();
             int pageAmount = (int)Math.Ceiling(list.Count() / (double)entitiesPerPage);
 
-            NotificationsViewModel vm = new NotificationsViewModel(list, 1, pageAmount);
+            NotificationsVM vm = new NotificationsVM(list, 1, pageAmount);
 
             return View(vm);
         }
@@ -146,7 +147,7 @@ namespace Marketplace.Controllers
 
             Console.WriteLine(pageAmount);
 
-            NotificationsViewModel vm = new NotificationsViewModel(list, page, pageAmount);
+            NotificationsVM vm = new NotificationsVM(list, page, pageAmount);
 
             return PartialView(vm);
         }
@@ -155,9 +156,9 @@ namespace Marketplace.Controllers
         [Authorize(Roles = "Admin")]
         public IActionResult UserAccount(int id)
         {
-            ViewBag.User = userRepo.GetById(id);
+            User user = userRepo.GetById(id);
 
-            return View();
+            return View(user);
         }
         [HttpPost]
         [Authorize(Roles = "Admin")]

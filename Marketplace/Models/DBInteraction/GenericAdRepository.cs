@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using System.IO;
 using Marketplace.Models.DBInteraction;
 using Marketplace.Models.ViewModels;
-using Marketplace.Models.SelectStrategy;
+using Marketplace.Models.FilterStrategy;
 
 namespace Marketplace.Models
 {
@@ -20,57 +20,60 @@ namespace Marketplace.Models
             dbSet = context.Set<TEntity>();
         }
 
-        public PageContainer GetPage(string category, int page, int entitiesPerPage, string sort, FilterViewModel select)
+        public PageContainer GetPage(string category, int page, string search, string sort, FilterVM filter)
         {
+            int entitiesPerPage = 10;
             PageContainer container = new PageContainer();
             IEnumerable<TEntity> ads = dbSet.Where(ad => ad.IsFreezed == false);
 
-            //select
-            IFilterStrategy<TEntity> selectAds = null;
+            // search
+            ads = dbSet.Where(ad => ad.Title.Contains(search));
 
-            if (select != null)
+            // filter
+            IFilterAdsStrategy<TEntity> filterAds = null;
+
+            if (filter != null)
             {
                 if (category == "smartphone")
                 {
-                    selectAds = new FilterSmartphones<TEntity>();
+                    filterAds = new FilterSmartphones<TEntity>();
                 }
                 else if (category == "laptop")
                 {
-                    selectAds = new FilterLaptops<TEntity>();
+                    filterAds = new FilterLaptops<TEntity>();
                 }
                 else if (category == "monitor")
                 {
-                    selectAds = new FilterMonitors<TEntity>();
+                    filterAds = new FilterMonitors<TEntity>();
                 }
                 else if (category == "videocard")
                 {
-                    selectAds = new FilterVideocards<TEntity>();
+                    filterAds = new FilterVideocards<TEntity>();
                 }
                 else if (category == "processor")
                 {
-                    selectAds = new FilterProcessors<TEntity>();
+                    filterAds = new FilterProcessors<TEntity>();
                 }
                 else if (category == "RAM")
                 {
-                    selectAds = new FilterRAMs<TEntity>();
+                    filterAds = new FilterRAMs<TEntity>();
                 }
                 else if (category == "drive")
                 {
-                    selectAds = new FilterDrives<TEntity>();
+                    filterAds = new FilterDrives<TEntity>();
                 }
             }
 
-            if (selectAds != null) 
-                ads = selectAds.Select(ads, select);
-            //
+            if (filterAds != null) 
+                ads = filterAds.Filter(ads, filter);
 
             // sort
             if (sort == "recent") ads = ads.OrderByDescending(ad => ad.Id);
             else if (sort == "decrease-price") ads = ads.OrderByDescending(ad => ad.Price);
             else if (sort == "increase-price") ads = ads.OrderBy(ad => ad.Price);
-            else if (sort == "own") ads = ads.Where(ad => ad.UserId == select.UserId);
-            //
-
+            else if (sort == "own") ads = ads.Where(ad => ad.UserId == filter.UserId);
+            
+            // pagination
             container.Ads = ads.Skip((page - 1) * entitiesPerPage).Take(entitiesPerPage);
             container.PageAmount = (int)Math.Ceiling(ads.Count() / (double)entitiesPerPage);
 
@@ -88,7 +91,7 @@ namespace Marketplace.Models
             return dbSet.Find(id);
         }
 
-        public void Update(CreateViewModel vm, NotificationRepository notificationRepo)
+        public void Update(CreateVM vm, NotificationRepository notificationRepo)
         {
             TEntity currAd = GetById(vm.Id);
 

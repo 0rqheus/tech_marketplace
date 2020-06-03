@@ -5,21 +5,21 @@ using System.Threading.Tasks;
 using Marketplace.Models.AdTypes;
 using Marketplace.Models.ViewModels;
 
-namespace Marketplace.Models.SelectStrategy
+namespace Marketplace.Models.FilterStrategy
 {
-    public class FilterVideocards<TEntity> : IFilterStrategy<TEntity> where TEntity : Ad
+    public class FilterVideocards<TEntity> : IFilterAdsStrategy<TEntity> where TEntity : Ad
     {
-        public IEnumerable<TEntity> Select(IEnumerable<TEntity> ads, FilterViewModel select)
+        public IEnumerable<TEntity> Filter(IEnumerable<TEntity> ads, FilterVM select)
         {
             IEnumerable<VideocardAd> videocards = (IEnumerable<VideocardAd>)ads;
 
             if (select.FromPrice != 0 || select.ToPrice != 0)
             {
-                videocards = IFilterStrategy<VideocardAd>.SelectPrice(videocards, select.FromPrice, select.ToPrice);
+                videocards = IFilterAdsStrategy<VideocardAd>.FilterPrice(videocards, select.FromPrice, select.ToPrice);
             }
             if (select.Brand?.Trim() != "" && select.Brand != null)
             {
-                videocards = IFilterStrategy<VideocardAd>.SelectBrand(videocards, select.Brand);
+                videocards = IFilterAdsStrategy<VideocardAd>.FilterBrand(videocards, select.Brand);
             }
 
             if (select.MemorySize != 0)

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Marketplace.Models.ViewModels
 {
-    public class FilterViewModel
+    public class FilterVM
     {
         public int UserId { get; set; }
         public int FromPrice { get; set; }

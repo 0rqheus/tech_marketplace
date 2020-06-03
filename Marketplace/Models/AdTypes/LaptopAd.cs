@@ -15,7 +15,7 @@ namespace Marketplace.Models.AdTypes
         public LaptopAd()
         { }
 
-        public LaptopAd(CreateViewModel vm) : base(vm)
+        public LaptopAd(CreateVM vm) : base(vm)
         {
             ScreenSize = vm.ScreenSize;
             Processor = vm.Processor;

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Marketplace.Models
 {
-    public class CreateViewModel
+    public class CreateVM
     {
         public int Id { get; set; }
         public string Title { get; set; }

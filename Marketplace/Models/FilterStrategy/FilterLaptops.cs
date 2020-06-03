@@ -3,21 +3,21 @@ using Marketplace.Models.ViewModels;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Marketplace.Models.SelectStrategy
+namespace Marketplace.Models.FilterStrategy
 {
-    public class FilterLaptops<TEntity> : IFilterStrategy<TEntity> where TEntity : Ad
+    public class FilterLaptops<TEntity> : IFilterAdsStrategy<TEntity> where TEntity : Ad
     {
-        public IEnumerable<TEntity> Select(IEnumerable<TEntity> ads, FilterViewModel select)
+        public IEnumerable<TEntity> Filter(IEnumerable<TEntity> ads, FilterVM select)
         {
             IEnumerable<LaptopAd> laptops = (IEnumerable<LaptopAd>)ads;
 
             if (select.FromPrice != 0 || select.ToPrice != 0)
             {
-                laptops = IFilterStrategy<LaptopAd>.SelectPrice(laptops, select.FromPrice, select.ToPrice);
+                laptops = IFilterAdsStrategy<LaptopAd>.FilterPrice(laptops, select.FromPrice, select.ToPrice);
             }
             if (select.Brand?.Trim() != "" && select.Brand != null)
             {
-                laptops = IFilterStrategy<LaptopAd>.SelectBrand(laptops, select.Brand);
+                laptops = IFilterAdsStrategy<LaptopAd>.FilterBrand(laptops, select.Brand);
             }
 
             if (select.ScreenSize != 0)

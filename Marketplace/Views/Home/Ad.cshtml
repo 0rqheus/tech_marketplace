@@ -1,4 +1,5 @@
-﻿
+﻿@model Ad
+
 @{
     ViewData["Title"] = "Ad";
 }
@@ -8,8 +9,9 @@
     <link rel="stylesheet" href="~/css/ad.css" type="text/css" />
 }
 
+
 <div class="position-relative">
-    <h2 class="text-center m-3">@ViewBag.Ad.Title</h2>
+    <h2 class="text-center m-3">@Model.Title</h2>
 
     <!-- setting dropdown menu -->
     <div id="setting-container" class="dropdown position-absolute">
@@ -17,24 +19,28 @@
             Settings
         </button>
         <div class="dropdown-menu" aria-labelledby="setting-btn">
-            @if (ViewBag.AdAccess.CheckOwner(ViewBag.User))
-            {
-                <a class="dropdown-item" href="/Home/Update/@ViewBag.AdAccess.GetURLQuery()">Update</a>
-            }
-            @if (ViewBag.AdAccess.CheckOwner(ViewBag.User) || ViewBag.AdAccess.CheckAdmin(ViewBag.User))
+
+            @if (Model.OwnerCheck(ViewBag.User.Id)|| ViewBag.User.IsAdmin())
             {
                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#deleteModal">Delete</a>
-            }
-            @if (ViewBag.AdAccess.CheckAdmin(ViewBag.User))
-            {
-                <a class="dropdown-item" href="#" id="freeze-trigger">
-                    @{ string freeezeStatus = ViewBag.Ad.IsFreeze ? "Defreeze" : "Freeze"; }
-                    @freeezeStatus
-                </a>
-            }
-            @if (!ViewBag.AdAccess.CheckOwner(ViewBag.User))
-            {
-                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#reportModal">Report</a>
+
+                @if (Model.OwnerCheck(ViewBag.User.Id))
+                {
+                    <a class="dropdown-item" href="/Home/Update/@Model.GetAdURLQuery()">Update</a>
+                }
+                else
+                {
+                    <a class="dropdown-item" href="#" data-toggle="modal" data-target="#reportModal">Report</a>
+                }
+
+                @if (ViewBag.User.IsAdmin())
+                {
+                    <a class="dropdown-item" href="#" id="freeze-trigger">
+                        @{ string freeezeStatus = Model.IsFreezed ? "Defreeze" : "Freeze"; }
+                        @freeezeStatus
+                    </a>
+                }
+
             }
         </div>
     </div>
@@ -51,7 +57,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form method="post" action="/Home/Delete/@ViewBag.AdAccess.GetURLQuery()">
+                <form method="post" action="/Home/Delete/@Model.GetAdURLQuery()">
                     <button type="submit" class="btn btn-dark">Accept</button>
                 </form>
             </div>
@@ -88,8 +94,8 @@
             </div>
             <div class="modal-body">
                 <form id="reportForm">
-                    <input value="@ViewBag.Ad.Id" name="adId" hidden />
-                    <input value="@ViewBag.Ad.Category" name="adCategory" hidden />
+                    <input value="@Model.Id" name="adId" hidden />
+                    <input value="@Model.Category" name="adCategory" hidden />
                     <div class="form-group">
                         <label for="reportTypeInput">Report type</label>
                         <select class="form-control" id="reportTypeInput" name="reportType">
@@ -111,18 +117,18 @@
 
 <div id="content">
     <div class="d-flex align-items-center">
-        <img id="curr-ad-photo" class="mr-3" src="@ViewBag.AdDecor.GetImgSrc()" />
+        <img id="curr-ad-photo" class="mr-3" src="@Model.GetImgSrc()" />
 
         <div id="price-dateloc-container" class="position-relative w-75">
             
                 <div class="d-flex align-items-center position-absolute top-0 right-0">
-                    <p id="price">@ViewBag.Ad.Price</p>
+                    <p id="price">@Model.Price</p>
 
-                    @if (!ViewBag.AdAccess.CheckOwner(ViewBag.User))
+                    @if (!Model.OwnerCheck(ViewBag.User.Id))
                     {
                         <button id="buy-btn" class="btn btn-success">Buy</button>
  
-                        string trackedClass = ViewBag.Ad.Subscribers.Contains(ViewBag.User.Id) ? "tracked" : "";
+                        string trackedClass = Model.Subscribers.Contains(ViewBag.User.Id) ? "tracked" : "";
                         
                         <button id="track-btn" class="btn @trackedClass"></button>
                     }
@@ -131,8 +137,8 @@
 
             <!-- date & location info -->
             <div class="text-secondary position-absolute bottom-0 left-0">
-                <p>@ViewBag.Ad.CreationDate</p>
-                <p>@ViewBag.Ad.Location</p>
+                <p>@Model.CreationDate</p>
+                <p>@Model.Location</p>
             </div>
 
         </div>
@@ -140,7 +146,7 @@
 
     <div class="row mt-3">
         <div class="col-8">
-            <p id="ad-description">@ViewBag.Ad.Description</p>
+            <p id="ad-description">@Model.Description</p>
         </div>
 
         <div class="col-4">
@@ -149,7 +155,7 @@
                     <th>Property Name</th>
                     <th>Property Value</th>
                 </tr>
-                @foreach (KeyValuePair<string, string> kvp in ViewBag.Ad.GetAdditionalProperties())
+                @foreach (KeyValuePair<string, string> kvp in Model.GetAdditionalProperties())
                 {
                     <tr>
                         <td>@kvp.Key</td>

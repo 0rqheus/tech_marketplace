@@ -12,7 +12,7 @@ namespace Marketplace.Models.AdTypes
         public SmartphoneAd()
         { }
 
-        public SmartphoneAd(CreateViewModel vm) : base(vm)
+        public SmartphoneAd(CreateVM vm) : base(vm)
         {
             ScreenSize = vm.ScreenSize;
             Processor = vm.Processor;

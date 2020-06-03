@@ -15,7 +15,7 @@ namespace Marketplace.Models.AdTypes
         public MonitorAd()
         { }
 
-        public MonitorAd(CreateViewModel vm) : base(vm)
+        public MonitorAd(CreateVM vm) : base(vm)
         {
             ScreenSize = vm.ScreenSize;
             Resolution = vm.Resolution;

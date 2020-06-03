@@ -11,7 +11,7 @@ namespace Marketplace.Models.AdTypes
         public RAMAd()
         { }
 
-        public RAMAd(CreateViewModel vm) : base(vm)
+        public RAMAd(CreateVM vm) : base(vm)
         {
             TotalCapacity = vm.TotalCapacity;
             ModulesAmount = vm.ModulesAmount;

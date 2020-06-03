@@ -74,43 +74,43 @@ namespace Marketplace.Models
             return null;
         }
 
-        public PageContainer GetPage(string category, int page = 1, int enititesPerPage = 10, string sort = "recent", FilterViewModel select = null)
+        public PageContainer GetPage(string category, int page = 1, string search="", string sort = "recent", FilterVM filter = null)
         {
             PageContainer container = new PageContainer();
 
             if (category == "smartphone")
             {
-                container = smartphoneRepo.GetPage(category, page, enititesPerPage, sort, select);
+                container = smartphoneRepo.GetPage(category, page, search, sort, filter);
             }
             else if (category == "laptop")
             {
-                container = laptopRepo.GetPage(category, page, enititesPerPage, sort, select);
+                container = laptopRepo.GetPage(category, page, search, sort, filter);
             }
             else if (category == "videocard")
             {
-                container = videocardRepo.GetPage(category, page, enititesPerPage, sort, select);
+                container = videocardRepo.GetPage(category, page, search, sort, filter);
             }
             else if (category == "monitor")
             {
-                container = monitorRepo.GetPage(category, page, enititesPerPage, sort, select);
+                container = monitorRepo.GetPage(category, page, search, sort, filter);
             }
             else if (category == "processor")
             {
-                container = processorRepo.GetPage(category, page, enititesPerPage, sort, select);
+                container = processorRepo.GetPage(category, page, search, sort, filter);
             }
             else if (category == "ram")
             {
-                container = ramRepo.GetPage(category, page, enititesPerPage, sort, select);
+                container = ramRepo.GetPage(category, page, search, sort, filter);
             }
             else if (category == "drive")
             {
-                container = driveRepo.GetPage(category, page, enititesPerPage, sort, select);
+                container = driveRepo.GetPage(category, page, search, sort, filter);
             }
 
             return container;
         }
 
-        public int Create(CreateViewModel createVM, int userId)
+        public int CreateAd(CreateVM createVM, int userId)
         {
             if (createVM.Category == "smartphone")
             {
@@ -158,7 +158,7 @@ namespace Marketplace.Models
             return 0;
         }
 
-        public void Update(CreateViewModel vm)
+        public void UpdateAd(CreateVM vm)
         {
             if (vm.Category == "smartphone") smartphoneRepo.Update(vm, notificationRepo);
             else if (vm.Category == "laptop") laptopRepo.Update(vm, notificationRepo);
@@ -169,7 +169,7 @@ namespace Marketplace.Models
             else if (vm.Category == "drive") driveRepo.Update(vm, notificationRepo);
         }
 
-        public void Delete(string category, int id)
+        public void DeleteAd(string category, int id)
         {
             if (category == "smartphone") smartphoneRepo.Delete(id);
             else if (category == "laptop") laptopRepo.Delete(id);
@@ -180,7 +180,7 @@ namespace Marketplace.Models
             else if (category == "drive") driveRepo.Delete(id);
         }
 
-        public void Subscribe(string category, int id, int subscriberId)
+        public void SubscribeOnAd(string category, int id, int subscriberId)
         {
             if (category == "smartphone") smartphoneRepo.Subscribe(id, subscriberId);
             else if (category == "laptop") laptopRepo.Subscribe(id, subscriberId);
@@ -191,7 +191,7 @@ namespace Marketplace.Models
             else if (category == "drive") driveRepo.Subscribe(id, subscriberId);
         }
 
-        public void Unsubscribe(string category, int id, int subscriberId)
+        public void UnsubscribeFromAd(string category, int id, int subscriberId)
         {
             if (category == "smartphone") smartphoneRepo.Unsubscribe(id, subscriberId);
             else if (category == "laptop") laptopRepo.Unsubscribe(id, subscriberId);

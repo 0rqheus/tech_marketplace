@@ -10,6 +10,10 @@
     background: no-repeat center/70% url("../categoryIcon.svg") #343a40;
 }
 
+#category-btn.dropdown-toggle::after {
+    content: none;
+}
+
 #create-btn {
     height: 30px;
     padding: 2px 7px 2px 7px;

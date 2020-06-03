@@ -5,13 +5,13 @@ using System.Threading.Tasks;
 
 namespace Marketplace.Models.ViewModels
 {
-    public class NotificationsViewModel
+    public class NotificationsVM
     {
         public List<Notification> Notifications { get; set; }
         public int PageNumber { get; set; }
         public int PageAmount { get; set; }
 
-        public NotificationsViewModel(List<Notification> notifications, int pageNumber, int pageAmount)
+        public NotificationsVM(List<Notification> notifications, int pageNumber, int pageAmount)
         {
             Notifications = notifications;
             PageNumber = pageNumber;

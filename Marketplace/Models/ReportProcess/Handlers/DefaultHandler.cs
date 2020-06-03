@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace Marketplace.Models.ReportProcess.Receivers
+namespace Marketplace.Models.ReportProcess.Handlers
 {
-    public class DefaultReceiver
+    public class DefaultHandler : Handler
     {
-        public void ProcessReport(Report report, RepoFacade repo)
+
+        public override void Handle(Report report, RepoFacade repo)
         {
             Ad ad = repo.GetAd(report.AdCategory, report.AdId);
             User owner = repo.GetUser(ad.UserId);

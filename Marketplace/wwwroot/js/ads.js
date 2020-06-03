@@ -6,23 +6,18 @@
     let category = url.searchParams.get("category");
     let sort = "";
 
-    $("#filter-collapse-toggle").click(() => {
+    $("#filterCollapseToggle").click(() => {
         $("#sort-collapse").collapse("hide");
     })
 
-    $("#sort-collapse-toggle").click(() => {
+    $("#sortCollapseToggle").click(() => {
         $("#filter-collapse").collapse("hide");
     })
 
     subscribe();
 
     function subscribe() {
-        $("#sortForm").submit((event) => {
-            event.preventDefault();
-            getAds();
-        });
-
-        $("#filterForm").submit((event) => {
+        $("#adsForm").submit((event) => {
             event.preventDefault();
             getAds();
         });
@@ -45,9 +40,11 @@
     }
 
     function getAds() {
+        search = $("#searchInput").val();
         sort = $("#sortType option:checked").val();
+        filter = $("#filterForm").serialize();
 
-        $.get(`/Home/AdsPartial?page=${pageNumber}&category=${category}&sort=${sort}&${$("#filterForm").serialize()}`, (data) => {
+        $.get(`/Home/AdsPartial?page=${pageNumber}&category=${category}&search=${search}&sort=${sort}&${filter}`, (data) => {
             $("#collection-container").html(data);
             subscribe();
         });

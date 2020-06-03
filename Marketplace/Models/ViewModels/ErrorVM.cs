@@ -2,7 +2,7 @@ using System;
 
 namespace Marketplace.Models
 {
-    public class ErrorViewModel
+    public class ErrorVM
     {
         public string RequestId { get; set; }
 

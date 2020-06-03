@@ -11,7 +11,7 @@ namespace Marketplace.Models.AdTypes
         public VideocardAd()
         { }
 
-        public VideocardAd(CreateViewModel vm) : base(vm)
+        public VideocardAd(CreateVM vm) : base(vm)
         {
             MemorySize = vm.MemorySize;
             MemoryType = vm.MemoryType;

@@ -1,12 +1,13 @@
-﻿
+﻿@model Marketplace.Models.User
+
 @{
-    ViewData["Title"] = ViewBag.User.Name;
+    ViewData["Title"] = Model.Name;
 }
 
-<form class="d-flex justify-content-end m-3" action="/Home/BanToggle/@ViewBag.User.Id" method="post">
+<form class="d-flex justify-content-end m-3" action="/Home/BanToggle/@Model.Id" method="post">
     <button class="btn btn-dark" type="submit" id="ban-toggle-btn">
         @{
-            if (ViewBag.User.IsBanned)
+            if (Model.IsBanned)
             {
                 @:Unban
             }
@@ -22,38 +23,38 @@
 <table class="table table-bordered w-75 m-auto">
     <tr>
         <th scope="row">Id</th>
-        <td>@ViewBag.User.Id</td>
+        <td>@Model.Id</td>
     </tr>
     <tr>
         <th scope="row">Role</th>
         @{
-            string role = ViewBag.User.RoleId == 1 ? "Admin" : "User";
+            string role = Model.RoleId == 1 ? "Admin" : "User";
         }
         <td>@role</td>
     </tr>
     <tr>
         <th scope="row">Name</th>
-        <td>@ViewBag.User.Name</td>
+        <td>@Model.Name</td>
     </tr>
     <tr>
         <th scope="row">Email</th>
-        <td>@ViewBag.User.Email</td>
+        <td>@Model.Email</td>
     </tr>
     <tr>
         <th scope="row">Phone</th>
-        <td>@ViewBag.User.Phone</td>
+        <td>@Model.Phone</td>
     </tr>
     <tr>
         <th scope="row">Description</th>
-        <td>@ViewBag.User.Description</td>
+        <td>@Model.Description</td>
     </tr>
     <tr>
         <th scope="row">Registration date</th>
-        <td>@ViewBag.User.RegistrationDate</td>
+        <td>@Model.RegistrationDate</td>
     </tr>
 </table>
 
-@section Scripts 
+@section Scripts
 {
     <script src="~/js/user.js"></script>
 }

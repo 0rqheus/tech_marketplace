@@ -5,21 +5,21 @@ using System.Linq;
 using Marketplace.Models.AdTypes;
 using Marketplace.Models.ViewModels;
 
-namespace Marketplace.Models.SelectStrategy
+namespace Marketplace.Models.FilterStrategy
 {
-    public class FilterSmartphones<TEntity> : IFilterStrategy<TEntity> where TEntity : Ad
+    public class FilterSmartphones<TEntity> : IFilterAdsStrategy<TEntity> where TEntity : Ad
     { 
-        public IEnumerable<TEntity> Select(IEnumerable<TEntity> ads, FilterViewModel select)
+        public IEnumerable<TEntity> Filter(IEnumerable<TEntity> ads, FilterVM select)
         {
             IEnumerable<SmartphoneAd> smartphones = (IEnumerable<SmartphoneAd>)ads;
 
             if (select.FromPrice != 0 || select.ToPrice != 0)
             {
-                smartphones = IFilterStrategy<SmartphoneAd>.SelectPrice(smartphones, select.FromPrice, select.ToPrice);
+                smartphones = IFilterAdsStrategy<SmartphoneAd>.FilterPrice(smartphones, select.FromPrice, select.ToPrice);
             }
             if (select.Brand?.Trim() != "" && select.Brand != null)
             {
-                smartphones = IFilterStrategy<SmartphoneAd>.SelectBrand(smartphones, select.Brand);
+                smartphones = IFilterAdsStrategy<SmartphoneAd>.FilterBrand(smartphones, select.Brand);
             }
 
             if(select.ScreenSize != 0)

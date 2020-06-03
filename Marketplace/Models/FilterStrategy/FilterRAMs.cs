@@ -3,21 +3,21 @@ using Marketplace.Models.ViewModels;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Marketplace.Models.SelectStrategy
+namespace Marketplace.Models.FilterStrategy
 {
-    public class FilterRAMs<TEntity> : IFilterStrategy<TEntity> where TEntity : Ad
+    public class FilterRAMs<TEntity> : IFilterAdsStrategy<TEntity> where TEntity : Ad
     {
-        public IEnumerable<TEntity> Select(IEnumerable<TEntity> ads, FilterViewModel select)
+        public IEnumerable<TEntity> Filter(IEnumerable<TEntity> ads, FilterVM select)
         {
             IEnumerable<RAMAd> drives = (IEnumerable<RAMAd>)ads;
 
             if (select.FromPrice != 0 || select.ToPrice != 0)
             {
-                drives = IFilterStrategy<RAMAd>.SelectPrice(drives, select.FromPrice, select.ToPrice);
+                drives = IFilterAdsStrategy<RAMAd>.FilterPrice(drives, select.FromPrice, select.ToPrice);
             }
             if (select.Brand?.Trim() != "" && select.Brand != null)
             {
-                drives = IFilterStrategy<RAMAd>.SelectBrand(drives, select.Brand);
+                drives = IFilterAdsStrategy<RAMAd>.FilterBrand(drives, select.Brand);
             }
 
             if (select.TotalCapacity != 0)

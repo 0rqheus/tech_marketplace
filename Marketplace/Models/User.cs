@@ -32,5 +32,11 @@ namespace Marketplace.Models
         public DateTime RegistrationDate { get; set; } = DateTime.Now;
 
         public bool IsBanned { get; set; }
+
+        public bool IsAdmin()
+        {
+            if (RoleId == 1) return true;
+            return false;
+        }
     }
 }

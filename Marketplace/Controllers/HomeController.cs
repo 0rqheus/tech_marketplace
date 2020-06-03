@@ -5,8 +5,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Marketplace.Models;
 using Microsoft.AspNetCore.Authorization;
-using Marketplace.Models.ReportProcess.Commands;
-using Marketplace.Models.ReportProcess.Receivers;
+using Marketplace.Models.ReportProcess.Handlers;
 using Marketplace.Models.ReportProcess;
 using Marketplace.Models.ViewModels;
 
@@ -64,8 +63,8 @@ namespace Marketplace.Controllers
                 return;
             }
 
-            if (targetAd.Subscribers.Contains(u.Id)) repo.Unsubscribe(category, id, u.Id);
-            else repo.Subscribe(category, id, u.Id);
+            if (targetAd.Subscribers.Contains(u.Id)) repo.UnsubscribeFromAd(category, id, u.Id);
+            else repo.SubscribeOnAd(category, id, u.Id);
         }
 
         [HttpPost]
@@ -101,13 +100,14 @@ namespace Marketplace.Controllers
             Report report = new Report() { AdId = adId, AdCategory = adCategory, Comment = comment, Type = type, SenderId = u.Id };
             repo.CreateReport(report);
 
-            DefaultHandler defaultHandler = new DefaultHandler(new DefaultReceiver(), report, repo);
-            ScamHandler scamHandler = new ScamHandler(new ScamReceiver(), report, repo) { Successor = defaultHandler};
-            IllegalHandler illegalHandler = new IllegalHandler(new IllegalReceiver(), report, repo) { Successor = scamHandler };
+            DefaultHandler defaultHandler = new DefaultHandler();
+            ScamHandler scamHandler = new ScamHandler() { Successor = defaultHandler};
+            IllegalHandler illegalHandler = new IllegalHandler() { Successor = scamHandler };
 
             ReportProcessInvoker invoker = new ReportProcessInvoker();
             invoker.SetFirtHadler(illegalHandler);
-            invoker.StartReportProcessing();
+
+            invoker.StartReportProcessing(report, repo);
 
             return "Thanks for report!";
         }
@@ -123,13 +123,13 @@ namespace Marketplace.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(CreateViewModel createVM)
+        public IActionResult Create(CreateVM createVM)
         {
             User u = repo.GetUser(User.Identity.Name);
 
             if (u.IsBanned) if (u.IsBanned) return RedirectToAction("Banned", "Error");
 
-            int Id = repo.Create(createVM, u.Id);
+            int Id = repo.CreateAd(createVM, u.Id);
 
             return RedirectToAction("Ad", "Home", new { id = Id, category  = createVM.Category});
         }
@@ -141,21 +141,18 @@ namespace Marketplace.Controllers
 
         public IActionResult Ads(string category)
         {
-            int enititesPerPage = 10;
-            PageContainer container = repo.GetPage(category, 1, enititesPerPage);
-            AdsViewModel vm = new AdsViewModel(container.Ads.Select(ad => new AdPhotoDecorator(ad)), category, 1, container.PageAmount);
+            PageContainer container = repo.GetPage(category, 1);
+            AdsVM vm = new AdsVM(container.Ads, category, 1, container.PageAmount);
 
             return View(vm);
         }
 
-        public IActionResult AdsPartial(int page, string category, string sort, FilterViewModel select)
+        public IActionResult AdsPartial(int page, string category, string search, string sort, FilterVM filter)
         {
-            int enititesPerPage = 10;
-            PageContainer container = repo.GetPage(category, page, enititesPerPage, sort, select);
+            if (sort == "own") filter.UserId = (repo.GetUser(User.Identity.Name)).Id;
+            PageContainer container = repo.GetPage(category, page, search, sort, filter);
 
-            if (sort == "own") select.UserId = (repo.GetUser(User.Identity.Name)).Id;
-
-            AdsViewModel vm = new AdsViewModel(container.Ads.Select(ad => new AdPhotoDecorator(ad)), category, page, container.PageAmount);
+            AdsVM vm = new AdsVM(container.Ads, category, page, container.PageAmount);
 
             return PartialView(vm);
         }
@@ -163,18 +160,15 @@ namespace Marketplace.Controllers
         public IActionResult Ad(int id, string category)
         {
             Ad targetAd = repo.GetAd(category, id);
+            User user = repo.GetUser(User.Identity.Name);
 
             if (targetAd == null) return RedirectToAction("PageNotFound", "Error");
-            if (targetAd.IsFreezed == true && targetAd.UserId != (repo.GetUser(User.Identity.Name)).Id) return RedirectToAction("Frozen", "Error");
+            if (targetAd.IsFreezed == true && targetAd.UserId != user.Id) return RedirectToAction("Frozen", "Error");
 
-            AdDecorator decor = new AdPhotoDecorator(targetAd);
+            
+            ViewBag.User = user;
 
-            ViewBag.AdDecor = decor;
-            ViewBag.Ad = targetAd;
-            ViewBag.AdAccess = new AdAccessProxy(decor);
-            ViewBag.User = repo.GetUser(User.Identity.Name);
-
-            return View();
+            return View(targetAd);
         }
 
         [HttpGet]
@@ -190,7 +184,7 @@ namespace Marketplace.Controllers
         }
 
         [HttpPost]
-        public IActionResult Update(CreateViewModel vm)
+        public IActionResult Update(CreateVM vm)
         {
             User u = repo.GetUser(User.Identity.Name);
             Ad ad = repo.GetAd(vm.Category, vm.Id);
@@ -198,7 +192,7 @@ namespace Marketplace.Controllers
             if (ad == null) return RedirectToAction("PageNotFound", "Error");
             if (ad.UserId != u.Id) return RedirectToAction("Forbidden", "Error");
 
-            repo.Update(vm);
+            repo.UpdateAd(vm);
 
             return RedirectToAction("Ad", "Home", new { id = vm.Id, category = vm.Category });
         }
@@ -212,7 +206,7 @@ namespace Marketplace.Controllers
             if (ad == null) return RedirectToAction("PageNotFound", "Error");
             if (ad.UserId != u.Id && u.RoleId != 1) return RedirectToAction("Forbidden", "Error");
 
-            repo.Delete(category, id);
+            repo.DeleteAd(category, id);
 
             return RedirectToAction("Index", "Home");
         }
