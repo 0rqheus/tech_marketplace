@@ -14,8 +14,3 @@ It has such features:
     - Strategy (filter ads)
     - Observer (notifications system)
     - Chain of responsibility (report system)
-    
-
-TODO: 
-    - SCSS + BEM
-    - instant notifications

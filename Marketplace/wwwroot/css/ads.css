@@ -15,11 +15,11 @@
     max-height: 250px;
 }
 
-.ad-card-img {
+.ad-card__img {
     height: 150px;
 }
 
-.ad-card-title {
+.ad-card__title {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -27,7 +27,7 @@
     text-align: center;
 }
 
-.ad-card-description {
+.ad-card__description {
     overflow: hidden;
     text-overflow: ellipsis;
     width: 90%;
@@ -36,20 +36,15 @@
     color: black;
 }
 
-.ad-card-price {
+.ad-card__price {
     color: #c92e3d;
     font-weight: bold;
     margin-left: 10px;
 }
 
-.ad-card-price::before {
+.ad-card__price::before {
     content: "$"
 }
-
-.btn-buy:hover {
-    background: #24B960
-}
-
 
 .btn-pagination {
     width: 85px;

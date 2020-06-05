@@ -1,26 +1,26 @@
-﻿header {
+﻿.header {
     background: #49D681;
     padding-top: 5px;
     padding-bottom: 5px;
 }
 
-#category-btn {
+#categoryBtn {
     width: 28px;
     height: 28px;
     background: no-repeat center/70% url("../categoryIcon.svg") #343a40;
 }
 
-#category-btn.dropdown-toggle::after {
+#categoryBtn.dropdown-toggle::after {
     content: none;
 }
 
-#create-btn {
+.create-btn {
     height: 30px;
     padding: 2px 7px 2px 7px;
     font-weight: 500;
 }
 
-a.navbar-brand {
+.navbar-brand {
     white-space: normal;
     text-align: center;
     word-break: break-all;
@@ -29,7 +29,7 @@ a.navbar-brand {
     font-size: 22px;
 }
 
-#notification-icon {
+.notification-icon {
     height: 15px;
 }
 

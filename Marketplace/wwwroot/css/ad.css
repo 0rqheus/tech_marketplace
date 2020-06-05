@@ -1,5 +1,25 @@
-﻿#content {
-    width: 980px;
+﻿.setting {
+    right: 0px;
+    top: 0px;
+}
+
+.content {
+    max-width: 980px;
+}
+
+.price-and-dateloc {
+    height: 250px;
+}
+
+.price-text {
+    color: #c92e3d;
+    font-size: 28px;
+    margin-bottom: 0px;
+    font-weight: bold;
+}
+
+.price-text::before {
+    content: "$"
 }
 
 #track-btn {
@@ -10,15 +30,6 @@
 
 .tracked {
     filter: invert(1);
-}
-
-#price-dateloc-container {
-    height: 250px;
-}
-
-#setting-container {
-    right: 0px;
-    top: 0px;
 }
 
 .top-0 {
@@ -37,20 +48,9 @@
     bottom: 0px;
 }
 
-#curr-ad-photo {
+.ad-photo {
     max-width: 520px;
     max-height: 300px;
-}
-
-#price {
-    color: #c92e3d;
-    font-size: 28px;
-    margin-bottom: 0px;
-    font-weight: bold;
-}
-
-#price::before {
-    content: "$"
 }
 
 #buy-btn {

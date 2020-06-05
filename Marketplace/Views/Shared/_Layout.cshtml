@@ -11,13 +11,13 @@
     @RenderSection("Styles", required: false)
 </head>
 <body>
-    <header class="d-flex justify-content-between pr-5 pl-5">
+    <header class="d-flex justify-content-between pr-5 pl-5 header">
         <div class="d-flex align-items-center">
             <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Tech Marketplace</a>
 
             <div class="dropdown">
-                <button id="category-btn" class="btn btn-dark dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
-                <div class="dropdown-menu" aria-labelledby="category-btn">
+                <button id="categoryBtn" class="btn btn-dark dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                <div class="dropdown-menu" aria-labelledby="categoryBtn">
                     <a class="dropdown-item" href="/Home/Ads?category=smartphone">Smartphones</a>
                     <a class="dropdown-item" href="/Home/Ads?category=laptop">Laptops</a>
                     <a class="dropdown-item" href="/Home/Ads?category=videocard">Videocards</a>
@@ -30,7 +30,7 @@
         </div>
         <div class="d-flex align-items-center account-menu">
             <form class="mr-3" action="/Home/Create" method="get">
-                <button id="create-btn" class="btn btn-dark" type="submit">Create</button>
+                <button class="btn btn-dark create-btn" type="submit">Create</button>
             </form>
             @if (User.Identity.IsAuthenticated)
             {
@@ -38,7 +38,7 @@
                     Hi, @User.FindFirst(x => x.Type == ClaimTypes.Name).Value
                 </span>
                 <a class="ml-3" href="/Account/Notifications">
-                    <img id="notification-icon" src="~/notificationsIcon.svg"/>
+                    <img class="notification-icon" src="~/notificationsIcon2.svg" />
                 </a>
                 <a class="ml-3" href="/Account/Logout">Logout</a>
             }
@@ -66,9 +66,12 @@
             </li>
         </ul>
     </footer>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/signalr/signalr.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+
     @RenderSection("Scripts", required: false)
 </body>
 </html>

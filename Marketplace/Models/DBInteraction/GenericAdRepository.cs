@@ -6,6 +6,7 @@ using System.IO;
 using Marketplace.Models.DBInteraction;
 using Marketplace.Models.ViewModels;
 using Marketplace.Models.FilterStrategy;
+using System.Threading.Tasks;
 
 namespace Marketplace.Models
 {
@@ -91,7 +92,7 @@ namespace Marketplace.Models
             return dbSet.Find(id);
         }
 
-        public void Update(CreateVM vm, NotificationRepository notificationRepo)
+        public void Update(CreateVM vm, NotificationRepository notificationRepo, Func<int, string, Task> notify)
         {
             TEntity currAd = GetById(vm.Id);
 
@@ -106,10 +107,13 @@ namespace Marketplace.Models
             else if (vm.Price != 0 && vm.Price != currAd.Price)
             {
                 currAd.Price = vm.Price;
-
+                string message = $"<a href='/Home/Ad/?id={vm.Id}&category={vm.Category}'>{currAd.Title}`s</a> new price is {currAd.Price} <span class='notification-date'>[${DateTime.Now}]</span>";
+                int userId;
                 for (int i = 0; i < currAd.Subscribers.Count; i++)
                 {
-                    notificationRepo.Create(new Notification($"<a href='/Home/Ad/?id={vm.Id}&category={vm.Category}'>{currAd.Title}`s</a> new price is {currAd.Price} <span class='notification-date'>[${DateTime.Now}]</span>", NotificationType.PriceTrack, currAd.Subscribers[i]));
+                    userId = currAd.Subscribers[i];
+                    notificationRepo.Create(new Notification(message, NotificationType.PriceTrack, userId));
+                    notify(userId, message);
                 }
             }
             else if (vm.PhotoFile != null)

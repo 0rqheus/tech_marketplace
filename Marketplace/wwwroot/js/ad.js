@@ -1,27 +1,32 @@
 ﻿$(function () {
 
     const url = new URL(document.URL);
+    const adId = url.searchParams.get("id");
+    const category = url.searchParams.get("category");
+
+    const params = {
+        adId: adId,
+        category: category
+    };
 
     $('#buy-btn').click(() => {
-        $.post('/Home/Buy', { adId: url.searchParams.get("id"), category: url.searchParams.get("category") }, (data) => {
+        $.post('/Home/Buy', params, (data) => {
             $('#buyModal').modal('show');
         });
     })
 
     $('#track-btn').click((event) => {
-        $.post('/Home/SubscribeOnPriceToggle', { id: url.searchParams.get("id"), category: url.searchParams.get("category") }, data => {
+        $.post('/Home/SubscribeOnPriceToggle', params, data => {
             $('#track-btn').toggleClass("tracked");
         });
     })
 
     $('#freeze-trigger').click(() => {
-        $.post('/Home/FreezeAdToggle', { adId: url.searchParams.get("id"), category: url.searchParams.get("category") }, data => {
-            if ($('#freeze-trigger').text() == "Freeze") {
+        $.post('/Home/FreezeAdToggle', params, data => {
+            if ($('#freeze-trigger').text() == "Freeze")
                 $('#freeze-trigger').text("Defreeze");
-            }
-            else {
+            else
                 $('#freeze-trigger').text("Freeze");
-            }
         });
     })
 

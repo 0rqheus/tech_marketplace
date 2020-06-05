@@ -11,13 +11,13 @@ else
     {
         <div class="ad-card d-flex flex-column bg-light">
             <div class="d-flex justify-content-center overflow-hidden bg-white">
-                <img class="ad-card-img" src="@ad.GetImgSrc()" alt="@ad.Title" />
+                <img class="ad-card__img" src="@ad.GetImgSrc()" alt="@ad.Title" />
             </div>
 
-            <div class="ad-card-info w-100">
-                <h5 class="ad-card-title"><a href="/Home/Ad/@ad.GetAdURLQuery()">@ad.Title</a></h5>
-                <p class="ad-card-description">@ad.Description</p>
-                <p class="ad-card-price">@ad.Price</p>
+            <div class="ad-card__info w-100">
+                <h5 class="ad-card__title"><a href="/Home/Ad/@ad.GetAdURLQuery()">@ad.Title</a></h5>
+                <p class="ad-card__description">@ad.Description</p>
+                <p class="ad-card__price">@ad.Price</p>
             </div>
 
         </div>

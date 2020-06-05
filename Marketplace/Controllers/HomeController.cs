@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Marketplace.Models;
 using Microsoft.AspNetCore.Authorization;
 using Marketplace.Models.ReportProcess.Handlers;
 using Marketplace.Models.ReportProcess;
 using Marketplace.Models.ViewModels;
+using Microsoft.AspNetCore.SignalR;
+using Marketplace.Hubs;
+using System.Threading.Tasks;
 
 namespace Marketplace.Controllers
 {
@@ -15,10 +17,25 @@ namespace Marketplace.Controllers
     public class HomeController : Controller
     {
         private RepoFacade repo;
+        private IHubContext<NotificationHub> hubContext;
 
-        public HomeController(MarketplaceContext ctx)
+        public HomeController(MarketplaceContext ctx, IHubContext<NotificationHub> hubCtx)
         {
             repo = new RepoFacade(ctx);
+            hubContext = hubCtx;
+        }
+
+        [AllowAnonymous]
+        private async Task Notify(int userId, string title, string text)
+        {
+            User user = repo.GetUser(userId);
+            await hubContext.Clients.User(user.Email).SendAsync("Notify", title, text);
+        }
+
+        [AllowAnonymous]
+        private async Task Notify(string userEmail, string title, string text)
+        {
+            await hubContext.Clients.User(userEmail).SendAsync("Notify", title, text);
         }
 
         [AllowAnonymous]
@@ -35,7 +52,7 @@ namespace Marketplace.Controllers
 
         // Ad actions
         [HttpPost]
-        public void Buy(int adId, string category)
+        public async void Buy(int adId, string category)
         {
             User sender = repo.GetUser(User.Identity.Name);
             Ad ad = repo.GetAd(category, adId);
@@ -48,14 +65,20 @@ namespace Marketplace.Controllers
             string userPopover = $"<a data-toggle='popover'  data-container='body'  data-placement='top' data-html='true' data-content='<b>Email</b>: {sender.Email}<br><b>Phone</b>: {sender.Phone}'>{sender.Name}</a>";
             string adLink = $"<a href='/Home/Ad/?id={ad.Id}&category={ad.Category}'>{ad.Title}</a>";
 
-            repo.NotifyUser($"{userPopover} bought your '{adLink}' <span class='notification-date'>[{DateTime.Now}]</span>", NotificationType.Purchase, ad.UserId);
-            repo.NotifyUser($"You ordered '{adLink}' <span class='notification-date'>[{DateTime.Now}]</span>", NotificationType.Sale, sender.Id);
+            string saleText = $"{userPopover} bought your '{adLink}' <span class='notification-date'>[{DateTime.Now}]</span>";
+            string orderedText = $"You ordered '{adLink}' <span class='notification-date'>[{DateTime.Now}]</span>";
+
+            repo.NotifyUser(saleText, NotificationType.Purchase, ad.UserId);
+            repo.NotifyUser(orderedText, NotificationType.Sale, sender.Id);
+
+            await Notify(ad.UserId, "New purchase", saleText);
+            await Notify(sender.Email, "New order", orderedText);
         }
 
         [HttpPost]
-        public void SubscribeOnPriceToggle(int id, string category)
+        public void SubscribeOnPriceToggle(int adId, string category)
         {
-            Ad targetAd = repo.GetAd(category, id);
+            Ad targetAd = repo.GetAd(category, adId);
             User u = repo.GetUser(User.Identity.Name);
 
             if (targetAd == null)
@@ -63,8 +86,8 @@ namespace Marketplace.Controllers
                 return;
             }
 
-            if (targetAd.Subscribers.Contains(u.Id)) repo.UnsubscribeFromAd(category, id, u.Id);
-            else repo.SubscribeOnAd(category, id, u.Id);
+            if (targetAd.Subscribers.Contains(u.Id)) repo.UnsubscribeFromAd(category, adId, u.Id);
+            else repo.SubscribeOnAd(category, adId, u.Id);
         }
 
         [HttpPost]
@@ -83,7 +106,7 @@ namespace Marketplace.Controllers
         }
 
         [HttpPost]
-        public string ReportAd(int adId, string adCategory, string comment, string reportType)
+        public async Task<string> ReportAd(int adId, string adCategory, string comment, string reportType)
         {
             User u = repo.GetUser(User.Identity.Name);
 
@@ -108,6 +131,8 @@ namespace Marketplace.Controllers
             invoker.SetFirtHadler(illegalHandler);
 
             invoker.StartReportProcessing(report, repo);
+
+            await Notify(u.Email, "Your ad was reported", comment);
 
             return "Thanks for report!";
         }
@@ -184,7 +209,7 @@ namespace Marketplace.Controllers
         }
 
         [HttpPost]
-        public IActionResult Update(CreateVM vm)
+        public async Task<IActionResult> Update(CreateVM vm)
         {
             User u = repo.GetUser(User.Identity.Name);
             Ad ad = repo.GetAd(vm.Category, vm.Id);
@@ -192,7 +217,8 @@ namespace Marketplace.Controllers
             if (ad == null) return RedirectToAction("PageNotFound", "Error");
             if (ad.UserId != u.Id) return RedirectToAction("Forbidden", "Error");
 
-            repo.UpdateAd(vm);
+            repo.UpdateAd(vm, (userId, message) => Notify(userId, "Price of observed item changed", message));
+            await Notify(ad.UserId, "Price of observed item changed", "testing...");
 
             return RedirectToAction("Ad", "Home", new { id = vm.Id, category = vm.Category });
         }
@@ -211,11 +237,5 @@ namespace Marketplace.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        // Errors
-        /*[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }*/
     }
 }

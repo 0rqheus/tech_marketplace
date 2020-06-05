@@ -158,15 +158,15 @@ namespace Marketplace.Models
             return 0;
         }
 
-        public void UpdateAd(CreateVM vm)
+        public void UpdateAd(CreateVM vm, Func<int, string, Task> notify)
         {
-            if (vm.Category == "smartphone") smartphoneRepo.Update(vm, notificationRepo);
-            else if (vm.Category == "laptop") laptopRepo.Update(vm, notificationRepo);
-            else if (vm.Category == "videocard") videocardRepo.Update(vm, notificationRepo);
-            else if (vm.Category == "monitor") monitorRepo.Update(vm, notificationRepo);
-            else if (vm.Category == "processor") processorRepo.Update(vm, notificationRepo);
-            else if (vm.Category == "ram") ramRepo.Update(vm, notificationRepo);
-            else if (vm.Category == "drive") driveRepo.Update(vm, notificationRepo);
+            if (vm.Category == "smartphone") smartphoneRepo.Update(vm, notificationRepo, notify);
+            else if (vm.Category == "laptop") laptopRepo.Update(vm, notificationRepo, notify);
+            else if (vm.Category == "videocard") videocardRepo.Update(vm, notificationRepo, notify);
+            else if (vm.Category == "monitor") monitorRepo.Update(vm, notificationRepo, notify);
+            else if (vm.Category == "processor") processorRepo.Update(vm, notificationRepo, notify);
+            else if (vm.Category == "ram") ramRepo.Update(vm, notificationRepo, notify);
+            else if (vm.Category == "drive") driveRepo.Update(vm, notificationRepo, notify);
         }
 
         public void DeleteAd(string category, int id)

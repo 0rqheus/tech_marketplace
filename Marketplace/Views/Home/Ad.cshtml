@@ -14,7 +14,7 @@
     <h2 class="text-center m-3">@Model.Title</h2>
 
     <!-- setting dropdown menu -->
-    <div id="setting-container" class="dropdown position-absolute">
+    <div class="setting dropdown position-absolute">
         <button class="btn btn-secondary dropdown-toggle" type="button" id="setting-btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Settings
         </button>
@@ -115,14 +115,14 @@
     </div>
 </div>
 
-<div id="content">
+<div class="content">
     <div class="d-flex align-items-center">
-        <img id="curr-ad-photo" class="mr-3" src="@Model.GetImgSrc()" />
+        <img class="ad-photo mr-3" src="@Model.GetImgSrc()" />
 
-        <div id="price-dateloc-container" class="position-relative w-75">
+        <div class="price-and-dateloc position-relative w-75">
             
                 <div class="d-flex align-items-center position-absolute top-0 right-0">
-                    <p id="price">@Model.Price</p>
+                    <p class="price-text">@Model.Price</p>
 
                     @if (!Model.OwnerCheck(ViewBag.User.Id))
                     {
