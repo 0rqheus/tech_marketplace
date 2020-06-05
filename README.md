@@ -1,4 +1,4 @@
-# Marketplace
+# Tech Marketplace
 
 The "Tech Marketplace" service is example of basic marketplace, with ads, users and tech support in it.
 
