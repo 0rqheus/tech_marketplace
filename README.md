@@ -14,3 +14,5 @@ It has such features:
     - Strategy (filter ads)
     - Observer (notifications system)
     - Chain of responsibility (report system)
+
+![screenshots collage](/Marketplace/wwwroot/homeImg.png)
