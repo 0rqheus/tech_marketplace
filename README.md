@@ -6,7 +6,7 @@ Features:
 - Storing data in MSSQL DB
 - Admin role, which can freeze products and ban users
 - 7 basic categories (smartphones, laptops, etc.)
-- Creating ads with large amount of properties to provide enough info about them
+- Publish products describing them using with large amount of properties to provide enough info about them
 - Sort and filter for better search
 - Notifications system where user get info about sales, purchases, price tracking and reports
 - Using of 4 design patterns:
